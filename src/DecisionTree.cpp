@@ -124,7 +124,12 @@ DecisionTree::BestSplit DecisionTree::choose_best_split(const Dataset& ds, const
                 }
             }
 
-            if (best_gain_a > best.gain + EPS) {
+            const int branches = 2;
+            const int best_branches = best.is_cont ? 2 : (int)best.parts_disc.size();
+
+            if (best_gain_a > best.gain + EPS ||
+                (std::fabs(best_gain_a - best.gain) <= EPS && branches < best_branches) ||
+                (std::fabs(best_gain_a - best.gain) <= EPS && branches == best_branches && aidx < best.attr)) {
                 best.gain = best_gain_a;
                 best.attr = aidx;
                 best.is_cont = true;

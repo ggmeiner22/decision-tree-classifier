@@ -4,6 +4,7 @@
 #include "Metrics.h"
 #include "Util.h"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <cstring>
 
@@ -122,9 +123,9 @@ static void run_testIrisNoisy(const std::string& attr, const std::string& trainf
 
     for (int p = 0; p <= 20; p += 2) {
         Dataset noisy = clean_train;
-        corrupt_labels(noisy, (double)p, seed + (unsigned)p);
+        corrupt_labels(noisy, (double)p, seed);
 
-        auto split = noisy.split_holdout(holdout, seed + 999u + (unsigned)p);
+        auto split = noisy.split_holdout(holdout, seed + 999u);
         auto train = split.first;
         auto prune = split.second;
 
@@ -144,10 +145,16 @@ static void run_testIrisNoisy(const std::string& attr, const std::string& trainf
             << rule_te.accuracy() << ","
             << pruned_te.accuracy() << "\n";
 
-        std::cout << "noise " << p << "%  "
-                  << "tree=" << fmt_pct(tree_te.accuracy()) << "  "
-                  << "rules=" << fmt_pct(rule_te.accuracy()) << "  "
-                  << "pruned=" << fmt_pct(pruned_te.accuracy()) << "\n";
+        std::cout << std::left
+          << std::setw(10) << ("noise=" + std::to_string(p) + "%")
+          << " | "
+          << "test_acc(clean_test): "
+          << "tree=" << std::setw(7) << fmt_pct(tree_te.accuracy()) // Decision tree learned from noisy training data
+          << " | rules_no_prune=" << std::setw(7) << fmt_pct(rule_te.accuracy())  // Rules extracted from that tree (no pruning)
+          << " | rules_post_prune=" << std::setw(7) << fmt_pct(pruned_te.accuracy())  // Rules after post-pruning
+          << "\n";
+
+
     }
 
     std::cout << "Wrote: " << out_csv << "\n";

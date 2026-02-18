@@ -14,4 +14,10 @@ echo
 echo "=== testIrisNoisy ==="
 ./dtree testIrisNoisy data/iris-attr.txt data/iris-train.txt data/iris-test.txt --holdout 0.2 --seed 1 --out iris_noisy.csv
 
+echo "Generating plot..."
+
+gnuplot -persist scripts/plot_iris_noisy.gp
+
+echo "Created plot @ iris_noisy.png"
+
 echo "Done."

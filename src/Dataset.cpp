@@ -92,7 +92,21 @@ std::pair<Dataset, Dataset> Dataset::split_holdout(double holdout_frac, unsigned
     for (size_t i=0;i<rows.size();++i) idx[i]=i;
 
     std::mt19937 rng(seed);
-    std::shuffle(idx.begin(), idx.end(), rng);
+
+    // deterministic Fisher–Yates shuffle
+    for (size_t i = idx.size(); i > 1; --i) {
+        // generate j in [0, i-1] deterministically (no std::uniform_int_distribution)
+        const uint64_t n = i;
+        const uint64_t limit = (uint64_t(0x100000000ULL) / n) * n;
+        while (true) {
+            uint32_t x = rng();
+            if (x < limit) {
+                size_t j = (size_t)(x % n);
+                std::swap(idx[i - 1], idx[j]);
+                break;
+            }
+        }
+    }
 
     const size_t n_holdout = static_cast<size_t>(rows.size() * holdout_frac);
     for (size_t k=0;k<idx.size();++k) {

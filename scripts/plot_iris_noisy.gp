@@ -10,10 +10,10 @@ set ylabel "Accuracy"
 # set yrange [0:1]
 set grid
 set key outside
-set yrange [0.6:1.0]
-set style line 1 lw 3 pt 7
+set yrange [0.2:1.0]
+set style line 1 lw 9 pt 7
 set style line 2 lw 3 pt 5
-set style line 3 lw 3 pt 9
+set style line 3 lw 4 pt 9
 
 plot "iris_noisy.csv" using 1:2 with linespoints ls 1 title "Tree (test)", \
      "" using 1:3 with linespoints ls 2 title "Rules (no prune)", \
