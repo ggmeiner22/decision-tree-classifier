@@ -4,6 +4,15 @@ post-pruning, and noise robustness experiments on Tennis and Iris datasets.
 
 ## Compilation and Execution
 
+Ensure that you have execution permission using the following:   
+```
+chmod -R u+w .
+chmod +x scripts/run_all.sh
+chmod +x src/main.cpp
+chmod +x src/DecisionTree.cpp
+chmod +x src/Dataset.cpp
+```
+
 ### Run All
 ```
 ./scripts/run_all.sh
@@ -142,5 +151,6 @@ Defines compilation rules for building the project.
 - Compiles source files into object files
 - Links final executable `dtree`
 > Ensures consistent builds across machines.
+
 
 
