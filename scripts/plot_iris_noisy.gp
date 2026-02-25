@@ -1,5 +1,26 @@
-# gnuplot script (no external Python deps)
 # Usage: gnuplot -persist scripts/plot_iris_noisy.gp
+
+# ===============================================================
+# gnuplot visualization script for testIrisNoisy experiment
+# Usage: 
+#   gnuplot -persist scripts/plot_iris_noisy.gp
+#
+# Purpose:
+#   Reads iris_noisy.csv and plots model accuracy vs noise level.
+#
+#   Three curves are shown:
+#       1. Decision Tree accuracy on clean test set
+#       2. Rules extracted from tree (no pruning)
+#       3. Rules after reduced-error post-pruning
+#
+# Output:
+#   Generates iris_noisy.png using the pngcairo terminal.
+#
+# Deterministic:
+#   Since CSV is deterministic, this plot will be identical
+#   across machines as long as gnuplot version and data match.
+# ===============================================================
+
 set terminal pngcairo size 900,600
 set output "iris_noisy.png"
 
