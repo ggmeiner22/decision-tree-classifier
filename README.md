@@ -25,7 +25,7 @@ make
 ```
 ./dtree testIrisNoisy data/iris-attr.txt data/iris-train.txt data/iris-test.txt --holdout 0.2 --seed 1 --out iris_noisy.csv
 ```
-##### Plotting
+#### Plotting
 ```
 gnuplot -persist scripts/plot_iris_noisy.gp
 ```
@@ -65,7 +65,7 @@ decision-tree-classifier/
 ```
 
 ## File Overview
-#### Dataset.h / Dataset.cpp
+### Dataset.h / Dataset.cpp
 Defines the dataset structures and file parsing logic.
 - ```AttributeSpec``` describes each feature (name, discrete values, or continuous flag).
 - ```DatasetSpec``` stores attribute metadata and class labels.
@@ -73,7 +73,7 @@ Defines the dataset structures and file parsing logic.
 - ```Dataset``` loads data files, converts class labels into indices, and performs deterministic holdout splitting for pruning experiments.
 > This module isolates all data handling so the learning code remains clean.
 
-#### DecisionTree.h / DecisionTree.cpp
+### DecisionTree.h / DecisionTree.cpp
 Implements the core decision tree learning algorithm and rule extraction.
 Responsibilities include:
 - Entropy and information gain calculation
@@ -86,19 +86,19 @@ Responsibilities include:
 - Rule-based prediction and evaluation
 > This is the main learning engine of the project.
 
-#### Noise.h
+### Noise.h
 Provides deterministic label corruption utilities.
 - Implements ```corrupt_labels()``` to flip a fixed percentage of training labels.
 - Uses a seeded ```mt19937``` and rejection sampling to guarantee identical results across machines.
 > Used primarily by the noisy Iris experiment.
 
-#### Metrics.h
+### Metrics.h
 Defines accuracy reporting utilities.
 - ```AccuracyReport``` tracks correct/total predictions and computes accuracy.
 - ```fmt_pct()``` formats accuracy values as percentage strings.
 > Separates evaluation logic from the model implementation.
 
-#### Util.h
+### Util.h
 Contains reusable helper functions for string and file processing.
 Includes:
 - whitespace trimming
@@ -108,7 +108,7 @@ Includes:
 - safe string-to-double conversion
 > Keeps parsing logic centralized and reusable.
 
-#### main.cpp
+### main.cpp
 Program entry point and experiment controller.
 Supports three execution modes:
 - `testTennis` – builds a tree, prints rules, and reports accuracy (no pruning).
@@ -116,14 +116,14 @@ Supports three execution modes:
 - `testIrisNoisy` – injects label noise, evaluates robustness, and generates CSV output for plotting.
 > Also handles command-line parsing, experiment configuration, and formatted output.
 
-#### scripts/run_all.sh
+### scripts/run_all.sh
 Automation script that:
 1. Compiles the project using ```make```
 2. Runs all experiments
 4. Generates the noisy Iris plot using gnuplot
 Provides a single reproducible workflow.
 
-#### scripts/plot_iris_noisy.gp
+### scripts/plot_iris_noisy.gp
 Gnuplot script used to visualize accuracy vs noise level.
 Plots:
 - Tree accuracy
@@ -131,12 +131,12 @@ Plots:
 - Rule accuracy after post-pruning
 > Outputs ```iris_noisy.png```.
 
-#### data/
+### data/
 Contains dataset files used for experiments.
 - ```tennis-*``` files – discrete attribute example
 - ```iris-*``` files – continuous attribute example
 
-#### Makefile
+### Makefile
 Defines compilation rules for building the project.
 - Uses ```-std=c++11```
 - Compiles source files into object files
